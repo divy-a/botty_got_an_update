@@ -1,6 +1,6 @@
 import os
 import threading
-cmd = 'py'
+cmd = 'python'
 
 
 def start_server():
