@@ -5,7 +5,7 @@ cmd = 'python'
 
 def start_server():
     try:
-        os.system(f'{cmd} app.py')
+        os.system(f'gunicorn app:app')
     except Exception as ex:
         print(f'ERROR : {ex}')
 
