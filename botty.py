@@ -1,6 +1,7 @@
 import discord
 import os
 from dotenv import load_dotenv
+import requests
 load_dotenv()
 
 intents = discord.Intents.default()
@@ -11,7 +12,7 @@ client = discord.Client(intents=intents)
 
 @client.event
 async def on_ready():
-    print('We have logged in as {0.user}'.format(client))
+    print('LOGGED IN :  {0.user}'.format(client))
 
 
 @client.event
@@ -19,8 +20,11 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith('$hello'):
-        await message.channel.send('hi')
+    try:
+        response = requests.get(f'''{os.getenv('URL')}/q={message.content}''')
+        await message.channel.send(response.text)
+    except Exception as ex:
+        await message.channel.send('Something went wrong.')
 
 
 if __name__ == '__main__':
