@@ -2,7 +2,12 @@ import discord
 import os
 from dotenv import load_dotenv
 import requests
+import uuid
 load_dotenv()
+
+
+
+
 
 intents = discord.Intents.default()
 intents.members = True
@@ -17,6 +22,9 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    if instance_id != str(requests.get(f'''{os.getenv('URL')}/get_instance_id''').text):
+        return
+    
     if message.author == client.user:
         return
 
@@ -28,4 +36,6 @@ async def on_message(message):
 
 
 if __name__ == '__main__':
+    instance_id = str(uuid.uuid4().hex)
+    response = requests.get(f'''{os.getenv('URL')}/update_instance_id?id={instance_id}''')
     client.run(os.getenv('TOKEN'))
