@@ -21,7 +21,7 @@ async def on_message(message):
         return
 
     try:
-        response = requests.get(f'''{os.getenv('URL')}/q={message.content}''')
+        response = requests.get(f'''{os.getenv('URL')}/controller?q={message.content}''')
         await message.channel.send(response.text)
     except Exception as ex:
         await message.channel.send('Something went wrong.')
